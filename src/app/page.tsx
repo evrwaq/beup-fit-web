@@ -1,8 +1,9 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+import Image from 'next/image'
+import { JSX } from 'react'
+import styles from './page.module.css'
 
-export default function Home() {
-  return (
+function Home(): JSX.Element {
+  const value = (
     <div className={styles.page}>
       <main className={styles.main}>
         <Image
@@ -91,5 +92,8 @@ export default function Home() {
         </a>
       </footer>
     </div>
-  );
+  )
+  return value
 }
+
+export { Home }
