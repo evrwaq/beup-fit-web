@@ -13,6 +13,12 @@ const compat = new FlatCompat({
 const eslintConfig = [
   ...compat.extends('next/core-web-vitals', 'next/typescript'),
   ...skoolabConfig,
+  {
+    files: ['commitlint.config.js'],
+    rules: {
+      'import/no-anonymous-default-export': 'off',
+    },
+  },
 ]
 
 export default eslintConfig
