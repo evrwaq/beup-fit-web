@@ -28,15 +28,16 @@ const HeroSection = styled.section`
 const HeroContent = styled.div`
   flex: 1;
 
-  h1 {
-    font-size: 2.5rem;
-    margin-bottom: 20px;
-  }
-
   p {
     font-size: 1rem;
     margin-bottom: 20px;
     color: #555;
+  }
+
+  div {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
   }
 
   button {
@@ -52,6 +53,12 @@ const HeroContent = styled.div`
       background-color: #115293;
     }
   }
+`
+
+const TitleH1 = styled.span`
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+  font-weight: 900;
 `
 
 const HeroImage = styled.div`
@@ -118,17 +125,20 @@ export default function Home() {
       {/* Hero Section */}
       <HeroSection>
         <HeroContent>
-          <h1>Welcome to BeUp Fit</h1>
+          <TitleH1>Welcome to BeUp Fit</TitleH1>
           <p>
             Your personalized fitness and nutrition app, connecting you with
             world-class trainers and nutritionists, and helping you achieve your
             health goals.
           </p>
-          <button>Sign Up</button>
+          <div>
+            <button>Sign Up</button>
+            <button>Log In</button>
+          </div>
         </HeroContent>
         <HeroImage>
           <Image
-            src="/hero-image.png" // Substitua pelo caminho correto da imagem
+            src="/hero-image.png"
             alt="BeUp Fit Hero"
             width={400}
             height={300}
