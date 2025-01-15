@@ -41,6 +41,11 @@ const Sidebar = styled.aside`
   }
 `
 
+const DisabledButton = styled.a`
+  opacity: 50%;
+  cursor: not-allowed;
+`
+
 const MainContent = styled.main`
   flex: 1;
   padding: 40px;
@@ -192,10 +197,9 @@ export default function Home() {
             </svg>
             Home
           </a>
-          <a href="/workouts">Workouts</a>
-          <a href="/nutrition">Nutrition</a>
-          <a href="/community">Community</a>
-          <a href="/shop">Shop</a>
+          <a href="/WorkoutPage">WOTD</a>
+          <DisabledButton>Nutrition</DisabledButton>
+          <a href="/community">Trainers</a>
           <a href="/profile">Profile</a>
         </nav>
       </Sidebar>

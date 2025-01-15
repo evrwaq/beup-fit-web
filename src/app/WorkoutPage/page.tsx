@@ -135,7 +135,7 @@ export default function WorkoutPage() {
     <PageContainer>
       {/* Header */}
       <Header>
-        <h1>BeUp Fit</h1>
+        <h1>Workout Of The Day</h1>
         <nav>
           <a href="/dashboard">Dashboard</a>
           <a href="/explore">Explore</a>
