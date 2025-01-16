@@ -1,6 +1,7 @@
 'use client'
 
 import { TitleH1 } from '@/components/atoms/StylesPallete'
+import Link from 'next/link'
 import { IoHome } from 'react-icons/io5'
 import styled from 'styled-components'
 
@@ -152,14 +153,15 @@ export default function WorkoutPage() {
       {/* Header */}
       <Header>
         <span>
-          <a href="/HomePage">
+          <Link href={'/HomePage'}>
             <IoHome size={30} color="#2b2b2b" />
-          </a>
+          </Link>
+
           <TitleH1>Workout Of The Day</TitleH1>
         </span>
         <nav>
-          <a href="/dashboard">Dashboard</a>
-          <a href="/explore">Explore</a>
+          <Link href={''}>Dashboard</Link>
+          <Link href="/explore">Explore</Link>
           <a href="/workouts">Workouts</a>
           <a href="/challenges">Challenges</a>
           <a href="/nutrition">Nutrition</a>

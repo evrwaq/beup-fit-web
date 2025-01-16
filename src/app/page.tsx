@@ -271,6 +271,44 @@ export default function Home() {
               on-demand, on your schedule.
             </p>
           </FeatureCard>
+          <FeatureCard>
+            <Image
+              src="/trainer-icon.png"
+              alt="Trainer Icon"
+              width={80}
+              height={80}
+            />
+            <h3>Unlock your personalized workout plan</h3>
+            <p>
+              Get a personalized workout plan to help you reach your goals,{' '}
+              whether you´re a begginer or an athlete
+            </p>
+          </FeatureCard>
+          <FeatureCard>
+            <Image
+              src="/trainer-icon.png"
+              alt="Trainer Icon"
+              width={80}
+              height={80}
+            />
+            <h3>Get personalized nutrition plans</h3>
+            <p>
+              Get a nutrition plan designed for you, based on your goals,
+              preferences and lifestyle
+            </p>
+          </FeatureCard>
+          <FeatureCard>
+            <Image
+              src="/trainer-icon.png"
+              alt="Trainer Icon"
+              width={80}
+              height={80}
+            />
+            <h3>Join Live group classes</h3>
+            <p>
+              Join live grupo classes in our sudio, from anywhere in the world.
+            </p>
+          </FeatureCard>
           {/* Add other feature cards */}
         </FeaturesGrid>
       </MembershipSection>

@@ -2,6 +2,7 @@
 
 import styled from 'styled-components'
 import Image from 'next/image'
+import Link from 'next/link'
 
 const PageContainer = styled.div`
   display: flex;
@@ -186,7 +187,7 @@ export default function Home() {
       <Sidebar>
         <h2>BeUp Fit</h2>
         <nav>
-          <a href="/">
+          <Link href={'/'}>
             <svg
               width="20"
               height="20"
@@ -196,11 +197,11 @@ export default function Home() {
               <circle cx="10" cy="10" r="8" />
             </svg>
             Institutional
-          </a>
-          <a href="/WorkoutPage">WOTD</a>
+          </Link>
+          <Link href="/HomePage/WorkoutPage">WOTD</Link>
           <DisabledButton>Nutrition</DisabledButton>
-          <a href="/community">Trainers</a>
-          <a href="/Profile">Profile</a>
+          <Link href="/HomePage/Trainers">Trainers</Link>
+          <Link href="/HomePage/Profile">Profile</Link>
         </nav>
       </Sidebar>
 
