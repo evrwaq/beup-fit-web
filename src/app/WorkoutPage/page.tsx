@@ -1,5 +1,7 @@
 'use client'
 
+import { TitleH1 } from '@/components/atoms/StylesPallete'
+import { IoHome } from 'react-icons/io5'
 import styled from 'styled-components'
 
 const PageContainer = styled.div`
@@ -18,6 +20,20 @@ const Header = styled.header`
 
   h1 {
     font-size: 2rem;
+  }
+
+  span {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+
+    a {
+      text-decoration: none;
+    }
+
+    a:visited {
+      color: none;
+    }
   }
 
   nav {
@@ -135,7 +151,12 @@ export default function WorkoutPage() {
     <PageContainer>
       {/* Header */}
       <Header>
-        <h1>Workout Of The Day</h1>
+        <span>
+          <a href="/HomePage">
+            <IoHome size={30} color="#2b2b2b" />
+          </a>
+          <TitleH1>Workout Of The Day</TitleH1>
+        </span>
         <nav>
           <a href="/dashboard">Dashboard</a>
           <a href="/explore">Explore</a>

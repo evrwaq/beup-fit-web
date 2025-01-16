@@ -195,12 +195,12 @@ export default function Home() {
             >
               <circle cx="10" cy="10" r="8" />
             </svg>
-            Home
+            Institutional
           </a>
           <a href="/WorkoutPage">WOTD</a>
           <DisabledButton>Nutrition</DisabledButton>
           <a href="/community">Trainers</a>
-          <a href="/profile">Profile</a>
+          <a href="/Profile">Profile</a>
         </nav>
       </Sidebar>
 
