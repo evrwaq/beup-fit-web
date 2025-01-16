@@ -1,6 +1,6 @@
 'use client'
 
-import { TitleH1 } from '@/components/atoms/StylesPallete'
+import { DisabledButton, TitleH1 } from '@/components/atoms/StylesPallete'
 import Link from 'next/link'
 import { IoHome } from 'react-icons/io5'
 import styled from 'styled-components'
@@ -90,10 +90,11 @@ const VideoContainer = styled.div`
   justify-content: center;
   margin-bottom: 40px;
 
-  img {
+  video {
     width: 100%;
     max-width: 800px;
-    border-radius: 8px;
+    border-radius: 24px;
+    box-shadow: 0px 10px 21px -3px rgba(0, 0, 0, 0.75);
   }
 `
 
@@ -160,11 +161,9 @@ export default function WorkoutPage() {
           <TitleH1>Workout Of The Day</TitleH1>
         </span>
         <nav>
-          <Link href={''}>Dashboard</Link>
-          <Link href="/explore">Explore</Link>
-          <a href="/workouts">Workouts</a>
-          <a href="/challenges">Challenges</a>
-          <a href="/nutrition">Nutrition</a>
+          <Link href="/HomePage/Trainers">My Staff</Link>
+          <DisabledButton href="/challenges">Challenges</DisabledButton>
+          <DisabledButton href="/nutrition">Nutrition</DisabledButton>
         </nav>
       </Header>
 
@@ -182,7 +181,11 @@ export default function WorkoutPage() {
 
       {/* Video */}
       <VideoContainer>
-        <img src="/workout-video-placeholder.png" alt="Workout Video" />
+        <video controls autoPlay preload="none">
+          {/* Use a URL relativa sem incluir "public/" */}
+          <source src="/workout.mp4" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
       </VideoContainer>
 
       {/* Timer */}

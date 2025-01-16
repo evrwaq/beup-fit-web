@@ -1,3 +1,4 @@
+import { UserProvider } from '@/context/UserContext'
 import { Poppins } from 'next/font/google'
 
 export const metadata = {
@@ -17,7 +18,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={poppins.className}>
-      <body>{children}</body>
+      <body>
+        <UserProvider>{children}</UserProvider>
+      </body>
     </html>
   )
 }

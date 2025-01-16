@@ -2,6 +2,9 @@
 
 import styled from 'styled-components'
 import Image from 'next/image'
+import Link from 'next/link'
+import { useUser } from '@/context/UserContext'
+import { DisabledButton } from '@/components/atoms/StylesPallete'
 
 const PageContainer = styled.div`
   max-width: 1200px;
@@ -151,33 +154,35 @@ const ProgressSection = styled.section`
 `
 
 export default function ProfilePage() {
+  const { userName, userPhoto } = useUser()
+
   return (
     <PageContainer>
       {/* Header */}
       <Header>
         <h1>BeUp Fit</h1>
         <nav>
-          <a href="/">Home</a>
-          <a href="/exercises">Exercises</a>
-          <a href="/workouts">Workouts</a>
-          <a href="/programs">Programs</a>
-          <a href="/nutrition">Nutrition</a>
-          <a href="/sleep">Sleep</a>
+          <a href="/HomePage">Home</a>
+          <a href="/HomePage/Trainers">Trainers</a>
+          <Link href="/HomePage/WorkoutPage">WOTD</Link>
+          <DisabledButton>Nutrition</DisabledButton>
         </nav>
       </Header>
 
       {/* Profile Section */}
       <ProfileSection>
         <div className="profile-info">
-          <Image
-            src="/profile-image.png" // Substitua pelo caminho correto da imagem
-            alt="Profile"
-            width={100}
-            height={100}
-            style={{ borderRadius: '50%' }}
-          />
+          {userPhoto && (
+            <Image
+              src={userPhoto} // Substitua pelo caminho correto da imagem
+              alt={`${userName}'s profile`}
+              width={100}
+              height={100}
+              style={{ borderRadius: '50%' }}
+            />
+          )}
           <div className="details">
-            <h2>Amanda</h2>
+            <h2>{userName || 'Guest'}</h2>
             <p>San Francisco, CA</p>
             <p>2,384 followers • 1,000 following</p>
           </div>

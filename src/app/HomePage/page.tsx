@@ -3,6 +3,8 @@
 import styled from 'styled-components'
 import Image from 'next/image'
 import Link from 'next/link'
+import { useUser } from '@/context/UserContext'
+import { DisabledButton } from '@/components/atoms/StylesPallete'
 
 const PageContainer = styled.div`
   display: flex;
@@ -40,11 +42,6 @@ const Sidebar = styled.aside`
       }
     }
   }
-`
-
-const DisabledButton = styled.a`
-  opacity: 50%;
-  cursor: not-allowed;
 `
 
 const MainContent = styled.main`
@@ -181,6 +178,8 @@ const AchievementsSection = styled.section`
 `
 
 export default function Home() {
+  const { userName } = useUser()
+
   return (
     <PageContainer>
       {/* Sidebar */}
@@ -208,7 +207,7 @@ export default function Home() {
       {/* Main Content */}
       <MainContent>
         <Header>
-          <h1>Good morning, Alex</h1>
+          <h1>Good morning, {userName || 'Guest'}!</h1>
           <button>Start Day</button>
         </Header>
 

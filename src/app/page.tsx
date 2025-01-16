@@ -5,6 +5,12 @@ import Image from 'next/image'
 import { TitleH1 } from '@/components/atoms/StylesPallete'
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import bgLP from '/public/bg-lp.png'
+import icon1 from '/public/icon1.png'
+import icon2 from '/public/nutrition.png'
+import icon3 from '/public/online.png'
+import icon4 from '/public/icon4.png'
+import { useUser } from '@/context/UserContext'
 
 const PageContainer = styled.div`
   max-width: 1200px;
@@ -42,19 +48,37 @@ const HeroContent = styled.div`
     align-items: center;
     gap: 0.8rem;
   }
+`
 
-  button {
-    padding: 10px 20px;
-    font-size: 1rem;
-    color: #fff;
-    background-color: #1976d2;
+const SignUp = styled.button`
+  padding: 10px;
+  font-size: 1rem;
+  color: #000000;
+  background-color: #dfdfdf;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: 0.3s ease-in-out;
+
+  &:hover {
+    background-color: #115293;
     border: none;
-    border-radius: 4px;
-    cursor: pointer;
+    color: #fff;
+  }
+`
 
-    &:hover {
-      background-color: #115293;
-    }
+const LogIn = styled.button`
+  padding: 10px;
+  font-size: 1rem;
+  color: #fff;
+  background-color: #1d81e5;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: 0.3s ease-in-out;
+
+  &:hover {
+    background-color: #115293;
   }
 `
 
@@ -101,8 +125,8 @@ const FeatureCard = styled.div`
   text-align: center;
 
   img {
-    max-width: 80px;
-    margin-bottom: 20px;
+    max-width: 100%;
+    border-radius: 8px;
   }
 
   h3 {
@@ -185,6 +209,9 @@ const ModalContainer = styled.div`
 export default function Home() {
   const [isSignUpOpen, setIsSignUpOpen] = useState(false)
   const [isLogInOpen, setIsLogInOpen] = useState(false)
+  const [name, setName] = useState('') // Estado para capturar o nome
+  const { setUserName } = useUser() // Obtém a função para atualizar o nome do usuário
+  const [photo, setPhoto] = useState<File | null>(null)
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [errors, setErrors] = useState({ email: '', password: '' }) // Estado para erros
@@ -214,6 +241,27 @@ export default function Home() {
     return isValid
   }
 
+  const handleSignUp = (event: React.FormEvent) => {
+    event.preventDefault()
+
+    if (name.trim()) {
+      setUserName(name) // Atualiza o nome no contexto
+
+      if (photo) {
+        const reader = new FileReader()
+        reader.onload = () => {
+          setUserPhoto(reader.result as string) // Atualiza a foto no contexto
+        }
+        reader.readAsDataURL(photo)
+      }
+
+      setIsSignUpOpen(false)
+      alert('Profile created successfully!')
+    } else {
+      alert('Please enter a valid name')
+    }
+  }
+
   const handleLogIn = (event: React.FormEvent) => {
     event.preventDefault()
 
@@ -225,6 +273,10 @@ export default function Home() {
         router.push('/HomePage') // Redireciona para a página HomePage
       }, 1000)
     }
+  }
+
+  function setUserPhoto(arg0: string) {
+    throw new Error('Function not implemented.')
   }
 
   return (
@@ -239,17 +291,12 @@ export default function Home() {
             health goals.
           </p>
           <div>
-            <button onClick={() => setIsSignUpOpen(true)}>Sign Up</button>
-            <button onClick={() => setIsLogInOpen(true)}>Log In</button>
+            <SignUp onClick={() => setIsSignUpOpen(true)}>Sign Up</SignUp>
+            <LogIn onClick={() => setIsLogInOpen(true)}>Log In</LogIn>
           </div>
         </HeroContent>
         <HeroImage>
-          <Image
-            src="/hero-image.png"
-            alt="BeUp Fit Hero"
-            width={400}
-            height={300}
-          />
+          <Image src={bgLP} alt="BeUp Fit Hero" width={600} height={500} />
         </HeroImage>
       </HeroSection>
 
@@ -259,12 +306,7 @@ export default function Home() {
         <FeaturesGrid>
           {/* Feature Cards */}
           <FeatureCard>
-            <Image
-              src="/trainer-icon.png"
-              alt="Trainer Icon"
-              width={80}
-              height={80}
-            />
+            <Image src={icon1} alt="Trainer Icon" width={210} height={120} />
             <h3>Connect with world-class trainers</h3>
             <p>
               Work out with the best trainers in the world. Train live or
@@ -272,12 +314,7 @@ export default function Home() {
             </p>
           </FeatureCard>
           <FeatureCard>
-            <Image
-              src="/trainer-icon.png"
-              alt="Trainer Icon"
-              width={80}
-              height={80}
-            />
+            <Image src={icon4} alt="Trainer Icon" width={210} height={120} />
             <h3>Unlock your personalized workout plan</h3>
             <p>
               Get a personalized workout plan to help you reach your goals,{' '}
@@ -285,12 +322,7 @@ export default function Home() {
             </p>
           </FeatureCard>
           <FeatureCard>
-            <Image
-              src="/trainer-icon.png"
-              alt="Trainer Icon"
-              width={80}
-              height={80}
-            />
+            <Image src={icon2} alt="Trainer Icon" width={210} height={120} />
             <h3>Get personalized nutrition plans</h3>
             <p>
               Get a nutrition plan designed for you, based on your goals,
@@ -298,12 +330,7 @@ export default function Home() {
             </p>
           </FeatureCard>
           <FeatureCard>
-            <Image
-              src="/trainer-icon.png"
-              alt="Trainer Icon"
-              width={80}
-              height={80}
-            />
+            <Image src={icon3} alt="Trainer Icon" width={210} height={120} />
             <h3>Join Live group classes</h3>
             <p>
               Join live grupo classes in our sudio, from anywhere in the world.
@@ -318,11 +345,31 @@ export default function Home() {
         <ModalOverlay>
           <ModalContainer>
             <h2>Sign Up</h2>
-            <form>
-              <input type="text" placeholder="Name" required />
+            <form onSubmit={handleSignUp}>
+              <input
+                type="file"
+                accept="image/*"
+                onChange={e => {
+                  const file = e.target.files?.[0]
+                  if (file) {
+                    const reader = new FileReader()
+                    reader.onload = () => {
+                      setUserPhoto(reader.result as string) // Salva a imagem no contexto
+                    }
+                    reader.readAsDataURL(file)
+                  }
+                }}
+              />
+              <input
+                type="text"
+                placeholder="Enter your name"
+                value={name}
+                onChange={e => setName(e.target.value)}
+                required
+              />
               <input type="email" placeholder="Email" required />
               <input type="password" placeholder="Password" required />
-              <button type="submit">Sign Up</button>
+              <button type="submit">Create Profile</button>
             </form>
             <button
               className="close-btn"
@@ -333,7 +380,6 @@ export default function Home() {
           </ModalContainer>
         </ModalOverlay>
       )}
-
       {/* Log In Modal */}
       {isLogInOpen && (
         <ModalOverlay>
