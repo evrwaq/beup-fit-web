@@ -115,8 +115,7 @@ const PlanSection = styled.section`
     }
 
     .image {
-      max-width: 150px;
-      border-radius: 8px;
+      border-radius: 24px;
     }
   }
 `
@@ -229,18 +228,10 @@ export default function Home() {
             </div>
             <div className="plan-item image">
               <Image
-                src="/workout-image.png"
+                src="/halteres.png"
                 alt="Workout"
-                width={150}
-                height={150}
-              />
-            </div>
-            <div className="plan-item image">
-              <Image
-                src="/shake-image.png"
-                alt="Shake"
-                width={150}
-                height={150}
+                width={350}
+                height={180}
               />
             </div>
           </div>
