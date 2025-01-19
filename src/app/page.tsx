@@ -11,6 +11,7 @@ import icon2 from '/public/nutrition.png'
 import icon3 from '/public/online.png'
 import icon4 from '/public/icon4.png'
 import { useUser } from '@/context/UserContext'
+import Link from 'next/link'
 
 const PageContainer = styled.div`
   max-width: 1200px;
@@ -47,6 +48,15 @@ const HeroContent = styled.div`
     display: flex;
     align-items: center;
     gap: 0.8rem;
+  }
+
+  .personal-span {
+    font-size: 0.7rem;
+    margin-top: 0.5rem;
+    color: #555;
+  }
+  .personal-span:visited {
+    color: none;
   }
 `
 
@@ -293,6 +303,11 @@ export default function Home() {
           <div>
             <SignUp onClick={() => setIsSignUpOpen(true)}>Sign Up</SignUp>
             <LogIn onClick={() => setIsLogInOpen(true)}>Log In</LogIn>
+          </div>
+          <div>
+            <Link href={'/ForTrainers/Members'} className="personal-span">
+              Are you a Personal Trainer? Log In here!
+            </Link>
           </div>
         </HeroContent>
         <HeroImage>
