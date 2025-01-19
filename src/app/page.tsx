@@ -54,6 +54,7 @@ const HeroContent = styled.div`
     font-size: 0.7rem;
     margin-top: 0.5rem;
     color: #555;
+    cursor: pointer;
   }
   .personal-span:visited {
     color: none;
@@ -219,6 +220,7 @@ const ModalContainer = styled.div`
 export default function Home() {
   const [isSignUpOpen, setIsSignUpOpen] = useState(false)
   const [isLogInOpen, setIsLogInOpen] = useState(false)
+  const [isLogInTrainersOpen, setIsLogInTrainersOpen] = useState(false)
   const [name, setName] = useState('') // Estado para capturar o nome
   const { setUserName } = useUser() // Obtém a função para atualizar o nome do usuário
   const [photo, setPhoto] = useState<File | null>(null)
@@ -285,6 +287,19 @@ export default function Home() {
     }
   }
 
+  const handleLogInTrainer = (event: React.FormEvent) => {
+    event.preventDefault()
+
+    if (validateForm()) {
+      console.log('Login successful')
+
+      // Simulando autenticação
+      setTimeout(() => {
+        router.push('/ForTrainers/Members') // Redireciona para a página HomePage
+      }, 1000)
+    }
+  }
+
   function setUserPhoto(arg0: string) {
     throw new Error('Function not implemented.')
   }
@@ -305,9 +320,12 @@ export default function Home() {
             <LogIn onClick={() => setIsLogInOpen(true)}>Log In</LogIn>
           </div>
           <div>
-            <Link href={'/ForTrainers/Members'} className="personal-span">
+            <span
+              className="personal-span"
+              onClick={() => setIsLogInTrainersOpen(true)}
+            >
               Are you a Personal Trainer? Log In here!
-            </Link>
+            </span>
           </div>
         </HeroContent>
         <HeroImage>
@@ -395,12 +413,44 @@ export default function Home() {
           </ModalContainer>
         </ModalOverlay>
       )}
+
       {/* Log In Modal */}
       {isLogInOpen && (
         <ModalOverlay>
           <ModalContainer>
             <h2>Log In</h2>
             <form onSubmit={handleLogIn}>
+              <input
+                type="email"
+                placeholder="Email"
+                value={email}
+                onChange={e => setEmail(e.target.value)}
+              />
+              {errors.email && <p className="error">{errors.email}</p>}
+
+              <input
+                type="password"
+                placeholder="Password"
+                value={password}
+                onChange={e => setPassword(e.target.value)}
+              />
+              {errors.password && <p className="error">{errors.password}</p>}
+
+              <button type="submit">Log In</button>
+            </form>
+            <button className="close-btn" onClick={() => setIsLogInOpen(false)}>
+              Close
+            </button>
+          </ModalContainer>
+        </ModalOverlay>
+      )}
+
+      {/* Log In Modal Trainers*/}
+      {isLogInTrainersOpen && (
+        <ModalOverlay>
+          <ModalContainer>
+            <h2>Trainers Log In</h2>
+            <form onSubmit={handleLogInTrainer}>
               <input
                 type="email"
                 placeholder="Email"
