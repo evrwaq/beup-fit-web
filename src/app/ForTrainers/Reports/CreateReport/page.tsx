@@ -5,15 +5,7 @@ import { useState } from 'react'
 import { IoHome } from 'react-icons/io5'
 import { PageContainer, SectionTitle, Table, ButtonContainer } from './styles'
 
-type CreateWorkoutPlanProps = {
-  memberId: number
-  onReportCreated: (memberId: number) => void
-}
-
-export default function CreateWorkoutPlan({
-  memberId,
-  onReportCreated,
-}: CreateWorkoutPlanProps) {
+export default function CreateWorkoutPlan() {
   const [data, setData] = useState([
     { id: 1, equipment: '', weight: '', reps: '', sets: '' },
   ])
@@ -26,11 +18,11 @@ export default function CreateWorkoutPlan({
     'Treadmill',
   ])
 
-  const handleInputChange = (id: number, field: string, value: string) => {
-    setData(prevData =>
-      prevData.map(row => (row.id === id ? { ...row, [field]: value } : row))
-    )
-  }
+  // const handleInputChange = (id: number, field: string, value: string) => {
+  //   setData(prevData =>
+  //     prevData.map(row => (row.id === id ? { ...row, [field]: value } : row))
+  //   )
+  // }
 
   const handleAddRow = () => {
     setData(prevData => [
@@ -43,24 +35,24 @@ export default function CreateWorkoutPlan({
     setData([{ id: 1, equipment: '', weight: '', reps: '', sets: '' }])
   }
 
-  const handleSave = async () => {
-    try {
-      const response = await fetch('/api/saveWorkoutPlan', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ memberId, plan: data }),
-      })
+  // const handleSave = async () => {
+  //   try {
+  //     const response = await fetch('/api/saveWorkoutPlan', {
+  //       method: 'POST',
+  //       headers: { 'Content-Type': 'application/json' },
+  //       body: JSON.stringify({ memberId, plan: data }),
+  //     })
 
-      if (response.ok) {
-        alert('Workout plan created successfully!')
-        onReportCreated(memberId)
-      } else {
-        alert('Error saving workout plan.')
-      }
-    } catch (error) {
-      console.error('Error saving workout plan:', error)
-    }
-  }
+  //     if (response.ok) {
+  //       alert('Workout plan created successfully!')
+  //       onReportCreated(memberId)
+  //     } else {
+  //       alert('Error saving workout plan.')
+  //     }
+  //   } catch (error) {
+  //     console.error('Error saving workout plan:', error)
+  //   }
+  // }
 
   return (
     <PageContainer>
@@ -86,9 +78,9 @@ export default function CreateWorkoutPlan({
               <td>
                 <select
                   value={row.equipment}
-                  onChange={e =>
-                    handleInputChange(row.id, 'equipment', e.target.value)
-                  }
+                  // onChange={e =>
+                  //   handleInputChange(row.id, 'equipment', e.target.value)
+                  // }
                 >
                   <option value="">Select Equipment</option>
                   {equipmentOptions.map((option, index) => (
@@ -103,9 +95,9 @@ export default function CreateWorkoutPlan({
                   type="number"
                   placeholder="Weight"
                   value={row.weight}
-                  onChange={e =>
-                    handleInputChange(row.id, 'weight', e.target.value)
-                  }
+                  // onChange={e =>
+                  //   handleInputChange(row.id, 'weight', e.target.value)
+                  // }
                 />
               </td>
               <td>
@@ -113,9 +105,9 @@ export default function CreateWorkoutPlan({
                   type="number"
                   placeholder="Reps"
                   value={row.reps}
-                  onChange={e =>
-                    handleInputChange(row.id, 'reps', e.target.value)
-                  }
+                  // onChange={e =>
+                  //   handleInputChange(row.id, 'reps', e.target.value)
+                  // }
                 />
               </td>
               <td>
@@ -123,9 +115,9 @@ export default function CreateWorkoutPlan({
                   type="number"
                   placeholder="Sets"
                   value={row.sets}
-                  onChange={e =>
-                    handleInputChange(row.id, 'sets', e.target.value)
-                  }
+                  // onChange={e =>
+                  //   handleInputChange(row.id, 'sets', e.target.value)
+                  // }
                 />
               </td>
             </tr>
@@ -137,7 +129,7 @@ export default function CreateWorkoutPlan({
         <button className="clearButton" onClick={handleClear}>
           Clear All
         </button>
-        <button className="saveButton" onClick={handleSave}>
+        <button className="saveButton" onClick={() => {}}>
           Save Plan
         </button>
         <button className="saveButton" onClick={handleAddRow}>
