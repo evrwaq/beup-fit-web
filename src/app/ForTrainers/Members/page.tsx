@@ -58,13 +58,13 @@ export default function TrainersPage() {
       <MainContent>
         <SectionTitle>Members</SectionTitle>
         <MembersGrid>
-          {members!.map(({ id, name, age, goal }) => (
+          {members!.map(({ id, name, age, goal, hasWorkout }) => (
             <MemberCard key={id}>
               <img src="/avatar.jpg" alt={`${name}'s profile`} />
               <h3>{name}</h3>
               <p>Age: {age}</p>
               <p>Goal: {goal}</p>
-              {id === 'user3' ? (
+              {!hasWorkout ? (
                 <Link
                   href={{
                     pathname: '/ForTrainers/Reports/CreateReport',

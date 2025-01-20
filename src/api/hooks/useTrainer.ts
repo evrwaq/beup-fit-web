@@ -5,6 +5,7 @@ export type Member = {
   name: string
   age: number
   goal: string
+  hasWorkout: boolean
 }
 
 export type Workout = {
