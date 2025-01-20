@@ -75,8 +75,47 @@ export const useTrainerAPI = () => {
     }
   }
 
+  const updateWorkout = async (
+    trainerId: string,
+    userId: string,
+    workouts: {
+      exerciseId: string
+      repetitions: number
+      weight: number
+      steps: number
+    }[]
+  ) => {
+    try {
+      const response = await fetch(
+        `${API_BASE_URL}/trainers/${trainerId}/users/${userId}/workout`,
+        {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ workouts }),
+        }
+      )
+
+      if (!response.ok) {
+        throw new Error(`Failed to update workout: ${response.statusText}`)
+      }
+
+      return await response.json()
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        console.error(err.message)
+        throw new Error(err.message)
+      } else {
+        console.error('An unknown error occurred')
+        throw new Error('An unknown error occurred')
+      }
+    }
+  }
+
   return {
     getMembers,
     getWorkoutByUser,
+    updateWorkout,
   }
 }

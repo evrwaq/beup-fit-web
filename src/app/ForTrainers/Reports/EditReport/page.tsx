@@ -26,7 +26,7 @@ export default function WorkoutReports() {
 
   const [userName, setUserName] = useState('')
 
-  const { getWorkoutByUser } = useTrainerAPI()
+  const { getWorkoutByUser, updateWorkout } = useTrainerAPI()
 
   useEffect(() => {
     const fetchWorkout = async () => {
@@ -40,7 +40,7 @@ export default function WorkoutReports() {
     }
 
     fetchWorkout()
-  }, [getWorkoutByUser])
+  }, [])
 
   const handleInputChange = (
     exerciseId: string,
@@ -58,22 +58,25 @@ export default function WorkoutReports() {
     setData([])
   }
 
-  const handleSave = () => {
-    console.log('Saved Data:', data)
-    alert('Changes saved successfully!')
+  const handleSave = async () => {
+    try {
+      await updateWorkout('trainer1', 'user1', data)
+      alert('Workout updated successfully!')
+    } catch (err) {
+      console.error('Failed to update workout:', err)
+      alert('Failed to update workout.')
+    }
   }
 
   const handleAddRow = () => {
-    setData(prevData => [
-      ...prevData,
-      {
-        exerciseId: Date.now().toString(),
-        name: '',
-        weight: 0,
-        repetitions: 0,
-        steps: 0,
-      },
-    ])
+    const newRow = {
+      exerciseId: `new-${Date.now()}`,
+      name: '',
+      repetitions: 0,
+      weight: 0,
+      steps: 0,
+    }
+    setData(prevWorkouts => [...prevWorkouts, newRow])
   }
 
   return (
@@ -96,18 +99,18 @@ export default function WorkoutReports() {
           </tr>
         </thead>
         <tbody>
-          {data.map(row => (
-            <tr key={row.exerciseId}>
-              <td>{row.name}</td>
+          {data.map((workout, index) => (
+            <tr key={workout.exerciseId || `row-${index}`}>
               <td>
                 <input
-                  type="number"
-                  value={row.weight}
+                  type="text"
+                  value={workout.name}
+                  placeholder="Enter exercise name"
                   onChange={e =>
                     handleInputChange(
-                      row.exerciseId,
-                      'weight',
-                      Number(e.target.value)
+                      workout.exerciseId,
+                      'name',
+                      e.target.value
                     )
                   }
                 />
@@ -115,10 +118,10 @@ export default function WorkoutReports() {
               <td>
                 <input
                   type="number"
-                  value={row.repetitions}
+                  value={workout.repetitions}
                   onChange={e =>
                     handleInputChange(
-                      row.exerciseId,
+                      workout.exerciseId,
                       'repetitions',
                       Number(e.target.value)
                     )
@@ -128,10 +131,23 @@ export default function WorkoutReports() {
               <td>
                 <input
                   type="number"
-                  value={row.steps}
+                  value={workout.weight}
                   onChange={e =>
                     handleInputChange(
-                      row.exerciseId,
+                      workout.exerciseId,
+                      'weight',
+                      Number(e.target.value)
+                    )
+                  }
+                />
+              </td>
+              <td>
+                <input
+                  type="number"
+                  value={workout.steps}
+                  onChange={e =>
+                    handleInputChange(
+                      workout.exerciseId,
                       'steps',
                       Number(e.target.value)
                     )
