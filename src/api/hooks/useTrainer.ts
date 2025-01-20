@@ -139,10 +139,55 @@ export const useTrainerAPI = () => {
     }
   }
 
+  const addWorkout = async (
+    trainerId: string,
+    userId: string,
+    workouts: {
+      exerciseId: string
+      repetitions: number
+      weight: number
+      steps: number
+    }[]
+  ) => {
+    try {
+      const response = await fetch(
+        `${API_BASE_URL}/trainers/${trainerId}/users/${userId}/workout`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ workouts }),
+        }
+      )
+
+      if (!response.ok) {
+        throw new Error(`Failed to add workout: ${response.statusText}`)
+      }
+
+      const data = await response.json()
+
+      if (data) {
+        return data
+      } else {
+        throw new Error('Unexpected response format')
+      }
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        console.error(err.message)
+        throw new Error(err.message)
+      } else {
+        console.error('An unknown error occurred')
+        throw new Error('An unknown error occurred')
+      }
+    }
+  }
+
   return {
     getMembers,
     getWorkoutByUser,
     updateWorkout,
     getExercises,
+    addWorkout,
   }
 }

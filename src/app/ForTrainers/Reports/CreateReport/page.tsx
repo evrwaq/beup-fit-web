@@ -8,10 +8,10 @@ import { PageContainer, SectionTitle, Table, ButtonContainer } from './styles'
 
 export default function CreateWorkoutPlan() {
   const [data, setData] = useState([
-    { id: 1, exerciseId: '', weight: '', reps: '', sets: '' },
+    { id: 1, exerciseId: '', weight: '', reps: '', steps: '' },
   ])
   const [exercises, setExercises] = useState<{ id: string; name: string }[]>([])
-  const { getExercises } = useTrainerAPI()
+  const { getExercises, addWorkout } = useTrainerAPI()
 
   useEffect(() => {
     const fetchExercises = async () => {
@@ -35,12 +35,30 @@ export default function CreateWorkoutPlan() {
   const handleAddRow = () => {
     setData(prevData => [
       ...prevData,
-      { id: Date.now(), exerciseId: '', weight: '', reps: '', sets: '' },
+      { id: Date.now(), exerciseId: '', weight: '', reps: '', steps: '' },
     ])
   }
 
   const handleClear = () => {
-    setData([{ id: 1, exerciseId: '', weight: '', reps: '', sets: '' }])
+    setData([{ id: 1, exerciseId: '', weight: '', reps: '', steps: '' }])
+  }
+
+  const handleSavePlan = async () => {
+    const workouts = data.map(({ exerciseId, weight, reps, steps }) => ({
+      exerciseId,
+      weight: parseInt(weight, 10),
+      repetitions: parseInt(reps, 10),
+      steps: parseInt(steps, 10),
+    }))
+
+    try {
+      const response = await addWorkout('trainer1', 'user3', workouts)
+      console.log('Workout plan saved successfully:', response)
+      alert('Workout plan saved successfully!')
+    } catch (error) {
+      console.error('Failed to save workout plan:', error)
+      alert('Failed to save workout plan')
+    }
   }
 
   return (
@@ -102,10 +120,10 @@ export default function CreateWorkoutPlan() {
               <td>
                 <input
                   type="number"
-                  placeholder="Sets"
-                  value={row.sets}
+                  placeholder="Steps"
+                  value={row.steps}
                   onChange={e =>
-                    handleInputChange(row.id, 'sets', e.target.value)
+                    handleInputChange(row.id, 'steps', e.target.value)
                   }
                 />
               </td>
@@ -118,7 +136,7 @@ export default function CreateWorkoutPlan() {
         <button className="clearButton" onClick={handleClear}>
           Clear All
         </button>
-        <button className="saveButton" onClick={() => {}}>
+        <button className="saveButton" onClick={handleSavePlan}>
           Save Plan
         </button>
         <button className="saveButton" onClick={handleAddRow}>
