@@ -7,6 +7,17 @@ export type Member = {
   goal: string
 }
 
+export type Workout = {
+  id: string
+  userId: string
+  exercises: {
+    equipment: string
+    weight: string
+    reps: string
+    sets: string
+  }[]
+}
+
 export const useTrainerAPI = () => {
   const getMembers = async (trainerId: string) => {
     try {
@@ -36,7 +47,36 @@ export const useTrainerAPI = () => {
     }
   }
 
+  const getWorkoutByUser = async (trainerId: string, userId: string) => {
+    try {
+      const response = await fetch(
+        `${API_BASE_URL}/trainers/${trainerId}/users/${userId}/workout`
+      )
+
+      if (!response.ok) {
+        throw new Error(`Failed to fetch workout: ${response.statusText}`)
+      }
+
+      const data = await response.json()
+
+      if (data) {
+        return data
+      } else {
+        throw new Error('Unexpected response format')
+      }
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        console.error(err.message)
+        throw new Error(err.message)
+      } else {
+        console.error('An unknown error occurred')
+        throw new Error('An unknown error occurred')
+      }
+    }
+  }
+
   return {
     getMembers,
+    getWorkoutByUser,
   }
 }
