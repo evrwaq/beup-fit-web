@@ -113,9 +113,36 @@ export const useTrainerAPI = () => {
     }
   }
 
+  const getExercises = async () => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/trainers/exercises`)
+
+      if (!response.ok) {
+        throw new Error(`Failed to fetch exercises: ${response.statusText}`)
+      }
+
+      const data = await response.json()
+
+      if (data) {
+        return data
+      } else {
+        throw new Error('Unexpected response format')
+      }
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        console.error(err.message)
+        throw new Error(err.message)
+      } else {
+        console.error('An unknown error occurred')
+        throw new Error('An unknown error occurred')
+      }
+    }
+  }
+
   return {
     getMembers,
     getWorkoutByUser,
     updateWorkout,
+    getExercises,
   }
 }
