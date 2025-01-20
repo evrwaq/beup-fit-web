@@ -1,187 +1,29 @@
 'use client'
 
-import styled from 'styled-components'
 import Image from 'next/image'
-
-const PageContainer = styled.div`
-  display: flex;
-  min-height: 100vh;
-  background-color: #f5f5f5;
-`
-
-const Sidebar = styled.aside`
-  width: 240px;
-  background-color: #ffffff;
-  padding: 20px;
-  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-  display: flex;
-  flex-direction: column;
-
-  nav {
-    margin-top: 20px;
-
-    a {
-      display: flex;
-      align-items: center;
-      padding: 10px;
-      margin-bottom: 10px;
-      border-radius: 8px;
-      text-decoration: none;
-      color: #555;
-      font-weight: 500;
-
-      &:hover {
-        background-color: #f0f0f0;
-      }
-
-      svg {
-        margin-right: 10px;
-      }
-    }
-  }
-`
-
-const MainContent = styled.main`
-  flex: 1;
-  padding: 40px;
-`
-
-const Header = styled.header`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 40px;
-
-  h1 {
-    font-size: 1.75rem;
-  }
-
-  button {
-    padding: 10px 20px;
-    background-color: #1976d2;
-    color: #ffffff;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-
-    &:hover {
-      background-color: #115293;
-    }
-  }
-`
-
-const PlanSection = styled.section`
-  margin-bottom: 40px;
-
-  h2 {
-    font-size: 1.25rem;
-    margin-bottom: 20px;
-  }
-
-  .plan-grid {
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-
-    .plan-item {
-      flex: 1;
-      margin-right: 20px;
-
-      &:last-child {
-        margin-right: 0;
-      }
-
-      h3 {
-        font-size: 1rem;
-        margin-bottom: 5px;
-      }
-
-      button {
-        padding: 5px 10px;
-        font-size: 0.875rem;
-        background-color: #1976d2;
-        color: #ffffff;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-
-        &:hover {
-          background-color: #115293;
-        }
-      }
-    }
-
-    .image {
-      max-width: 150px;
-      border-radius: 8px;
-    }
-  }
-`
-
-const ProgressSection = styled.section`
-  margin-bottom: 40px;
-
-  h2 {
-    font-size: 1.25rem;
-    margin-bottom: 20px;
-  }
-
-  .progress-bar {
-    background-color: #e0e0e0;
-    border-radius: 8px;
-    height: 10px;
-    margin-bottom: 10px;
-    overflow: hidden;
-
-    .progress {
-      height: 100%;
-      width: 40%; /* Valor atual do progresso */
-      background-color: #1976d2;
-    }
-  }
-
-  p {
-    font-size: 0.875rem;
-    color: #555;
-  }
-`
-
-const AchievementsSection = styled.section`
-  h2 {
-    font-size: 1.25rem;
-    margin-bottom: 20px;
-  }
-
-  .achievement-list {
-    display: flex;
-    flex-direction: column;
-
-    .achievement-item {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 10px;
-      margin-bottom: 10px;
-      background-color: #ffffff;
-      border-radius: 8px;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-
-      span {
-        font-size: 0.875rem;
-        color: #555;
-      }
-    }
-  }
-`
+import Link from 'next/link'
+import { useUser } from '@/context/UserContext'
+import { DisabledButton } from '@/components/atoms/StylesPallete'
+import {
+  PageContainer,
+  Sidebar,
+  MainContent,
+  Header,
+  PlanSection,
+  ProgressSection,
+  AchievementsSection,
+} from './styles'
 
 export default function Home() {
+  const { userName } = useUser()
+
   return (
     <PageContainer>
       {/* Sidebar */}
       <Sidebar>
         <h2>BeUp Fit</h2>
         <nav>
-          <a href="/">
+          <Link href={'/'}>
             <svg
               width="20"
               height="20"
@@ -190,20 +32,19 @@ export default function Home() {
             >
               <circle cx="10" cy="10" r="8" />
             </svg>
-            Home
-          </a>
-          <a href="/workouts">Workouts</a>
-          <a href="/nutrition">Nutrition</a>
-          <a href="/community">Community</a>
-          <a href="/shop">Shop</a>
-          <a href="/profile">Profile</a>
+            Institutional
+          </Link>
+          <Link href="/HomePage/WorkoutPage">WOTD</Link>
+          <DisabledButton>Nutrition</DisabledButton>
+          <Link href="/HomePage/Trainers">Trainers</Link>
+          <Link href="/HomePage/Profile">Profile</Link>
         </nav>
       </Sidebar>
 
       {/* Main Content */}
       <MainContent>
         <Header>
-          <h1>Good morning, Alex</h1>
+          <h1>Good morning, {userName || 'Guest'}!</h1>
           <button>Start Day</button>
         </Header>
 
@@ -225,18 +66,10 @@ export default function Home() {
             </div>
             <div className="plan-item image">
               <Image
-                src="/workout-image.png"
+                src="/halteres.png"
                 alt="Workout"
-                width={150}
-                height={150}
-              />
-            </div>
-            <div className="plan-item image">
-              <Image
-                src="/shake-image.png"
-                alt="Shake"
-                width={150}
-                height={150}
+                width={350}
+                height={180}
               />
             </div>
           </div>
