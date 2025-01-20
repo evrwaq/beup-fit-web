@@ -1,8 +1,6 @@
-import { useState } from 'react'
-
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001'
 
-type Member = {
+export type Member = {
   id: string
   name: string
   age: number
@@ -10,14 +8,7 @@ type Member = {
 }
 
 export const useTrainerAPI = () => {
-  const [members, setMembers] = useState<Member[]>([])
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState<string | null>(null)
-
   const getMembers = async (trainerId: string) => {
-    setLoading(true)
-    setError(null)
-
     try {
       const response = await fetch(
         `${API_BASE_URL}/trainers/${trainerId}/users`
@@ -27,23 +18,25 @@ export const useTrainerAPI = () => {
         throw new Error(`Failed to fetch members: ${response.statusText}`)
       }
 
-      const data: Member[] = await response.json()
-      setMembers(data)
+      const data = await response.json()
+
+      if (data && data.users) {
+        return data.users
+      } else {
+        throw new Error('Unexpected response format')
+      }
     } catch (err: unknown) {
       if (err instanceof Error) {
-        setError(err.message)
+        console.error(err.message)
+        throw new Error(err.message)
       } else {
-        setError('An unknown error occurred')
+        console.error('An unknown error occurred')
+        throw new Error('An unknown error occurred')
       }
-    } finally {
-      setLoading(false)
     }
   }
 
   return {
-    members,
-    loading,
-    error,
     getMembers,
   }
 }

@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { DisabledButton } from '@/components/atoms/StylesPallete'
 import {
@@ -11,18 +11,28 @@ import {
   SectionTitle,
   Sidebar,
 } from './styles'
+import { Member, useTrainerAPI } from '@/api/hooks'
 
 export default function TrainersPage() {
-  const [members, setMembers] = useState([
-    { id: 1, name: 'John Doe', age: 25, goal: 'Build Muscle', report: true },
-    { id: 2, name: 'Jane Smith', age: 28, goal: 'Lose Weight', report: true },
-    { id: 3, name: 'Alice Riff', age: 32, goal: 'Hypertrophy', report: false },
-    { id: 4, name: 'Bob Brown', age: 30, goal: 'Hypertrophy', report: true },
-  ])
+  const [members, setMembers] = useState<Member[] | undefined>([])
+  const { getMembers } = useTrainerAPI()
 
-  const handleReportCreated = (memberId: number) => {
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await getMembers('trainer1')
+        setMembers(response)
+      } catch (error) {
+        console.error('Error fetching members:', error)
+      }
+    }
+
+    fetchData()
+  }, [getMembers])
+
+  const handleReportCreated = (memberId: string) => {
     setMembers(prevMembers =>
-      prevMembers.map(member =>
+      prevMembers!.map(member =>
         member.id === memberId ? { ...member, report: true } : member
       )
     )
@@ -48,20 +58,13 @@ export default function TrainersPage() {
       <MainContent>
         <SectionTitle>Members</SectionTitle>
         <MembersGrid>
-          {members.map(({ id, name, age, goal, report }) => (
+          {members!.map(({ id, name, age, goal }) => (
             <MemberCard key={id}>
               <img src="/avatar.jpg" alt={`${name}'s profile`} />
               <h3>{name}</h3>
               <p>Age: {age}</p>
               <p>Goal: {goal}</p>
-              {report ? (
-                <Link
-                  href={`/ForTrainers/Reports/EditReport?memberId=${id}`}
-                  className="buttonLink"
-                >
-                  Access Training
-                </Link>
-              ) : (
+              {id === 'user3' ? (
                 <Link
                   href={{
                     pathname: '/ForTrainers/Reports/CreateReport',
@@ -70,6 +73,13 @@ export default function TrainersPage() {
                   className="createReportButton"
                 >
                   Create Report
+                </Link>
+              ) : (
+                <Link
+                  href={`/ForTrainers/Reports/EditReport?memberId=${id}`}
+                  className="buttonLink"
+                >
+                  Access Training
                 </Link>
               )}
             </MemberCard>
